@@ -60,7 +60,7 @@ const displayBook = data =>{
         div.classList.add('col');
         div.innerHTML = `
                     <div class="card h-100 p-2 rounded-3">
-                        <img src="${`https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg`}" alt="Image not found'" onerror= "this.src='images/notFound.png';" class="card-img-top   rounded-3 h-75">
+                        <img src="${`https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg`}" alt="Image not found" class="card-img-top   rounded-3 h-75">
                         <div class="card-body">
                             <h5 class="card-title">${book.title}</h5>
                             <h5 class="card-title"></h5>
