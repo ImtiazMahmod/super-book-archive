@@ -1,18 +1,33 @@
 //result messege container
 const resultMessege = document.getElementById('result-messege');
+//toggler
+const toggler = (displaySpinner,displayResult,displayMessege) => {
+    document.getElementById('spinner').style.display = displaySpinner;
+    const resultToggle = document.getElementById('book-container');
+        resultToggle.style.display = displayResult;
+        resultToggle.classList.add('row', 'row-cols-1', 'row-cols-md-2', 'row-cols-lg-3', 'g-4');
+        resultMessege.style.display = displayMessege;
+}
 ///click handler
 const searchInput = () => {
     const searchBox = document.getElementById('search-input');
     const searchText = searchBox.value;
-    searchBox.value = '';
+    searchBox.value = '';     
+    toggler('block','none','none');  
+    if(searchText === ''){
+        resultMessege.innerHTML = `
+    <h2 class="text-center text-secondary my-3">Please enter your fovorite book name.</h2>`
+    toggler('none','none','block');
+    }  
+   else{
     searchFetch(searchText);
+   }
+   
 }
 
 ///search text fetch 
-const searchFetch= (searchText)=>{
-    
-    const url = `https://openlibrary.org/search.json?q=${searchText}`
-    
+const searchFetch= searchText=>{    
+    const url = `https://openlibrary.org/search.json?q=${searchText}`    
     fetch(url)
     .then(res => res.json())
     .then(data => displayBook(data))
@@ -21,9 +36,8 @@ const searchFetch= (searchText)=>{
     })    
 }
 //results messege
-const outputMessege = (data) =>{   
-    // resultMessege.textContent = '';
-    if(data.docs.length === 0){
+const outputMessege = data =>{   
+     if(data.docs.length === 0){
         resultMessege.innerHTML=`
     <h2 class="text-center text-danger my-3">No result found.</h2>    
     `}
@@ -34,9 +48,9 @@ const outputMessege = (data) =>{
     }    
 }
 //display book data
-const displayBook = (data) =>{
-    const bookConatainer = document.getElementById('book-container');    
-    outputMessege(data);    
+const displayBook = data =>{
+    const bookConatainer = document.getElementById('book-container');     
+    outputMessege(data);     
      //clear display data 
      bookConatainer.textContent = '';
      data.docs?.forEach(book => {
@@ -54,6 +68,7 @@ const displayBook = (data) =>{
                         </div>
                     </div>
         `
-        bookConatainer.appendChild(div);
-    });
+        bookConatainer.appendChild(div); 
+    });    
+    toggler('none','flex','block');   
 }
