@@ -1,1 +1,59 @@
-console.log('hi');
+//result messege container
+const resultMessege = document.getElementById('result-messege');
+///click handler
+const searchInput = () => {
+    const searchBox = document.getElementById('search-input');
+    const searchText = searchBox.value;
+    searchBox.value = '';
+    searchFetch(searchText);
+}
+
+///search text fetch 
+const searchFetch= (searchText)=>{
+    
+    const url = `https://openlibrary.org/search.json?q=${searchText}`
+    
+    fetch(url)
+    .then(res => res.json())
+    .then(data => displayBook(data))
+    .catch(() => {
+        resultMessege.innerHTML = '<h1 class="text-center text-danger">Something went wrong 😩, Please try again later.</h1>';
+    })    
+}
+//results messege
+const outputMessege = (data) =>{   
+    // resultMessege.textContent = '';
+    if(data.docs.length === 0){
+        resultMessege.innerHTML=`
+    <h2 class="text-center text-danger my-3">No result found.</h2>    
+    `}
+    else{
+        resultMessege.innerHTML = `
+    <h2 class="text-center text-primary my-3">${data.numFound} results found.</h2>    
+    `
+    }    
+}
+//display book data
+const displayBook = (data) =>{
+    const bookConatainer = document.getElementById('book-container');    
+    outputMessege(data);    
+     //clear display data 
+     bookConatainer.textContent = '';
+     data.docs?.forEach(book => {
+        const div = document.createElement('div');
+        div.classList.add('col');        
+        div.innerHTML = `
+                    <div class="card h-100">
+                        <img src="https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg" alt="Image not found" onerror="if(this.source===undefined) this.src='images/notFound.png';" class="card-img-top h-75">
+                        <div class="card-body">
+                            <h5 class="card-title">${book.title}</h5>
+                            <h5 class="card-title"></h5>
+                            <p class="card-text">Author: ${book.author_name ? book.author_name[0] :  'Unknown'}</p>
+                            <p class="card-text">Publisher: ${book.publisher ? book.publisher[0] :  'Unknown' }</p>
+                            <p class="card-text">First Published: ${book.publish_year ? Math.min.apply(null,book.publish_year) : 'Unknown'}</p>
+                        </div>
+                    </div>
+        `
+        bookConatainer.appendChild(div);
+    });
+}

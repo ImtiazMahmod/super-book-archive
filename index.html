@@ -16,11 +16,20 @@
         <h1 class="text-center bg-secondary p-3 text-light">Book Archive</h1>
     </header>
     <main class="container">
+        <!-- search box  -->
         <div class="input-group mb-3 w-50 mx-auto">
-            <input type="text" class="form-control" placeholder="enter a book name" aria-label="book-name"
-                aria-describedby="button-addon2">
-            <button class="btn btn-outline-warning" type="button" id="search-btn">Search</button>
+            <input id="search-input" type="text" class="form-control" placeholder="enter a book name"
+                aria-label="book-name" aria-describedby="button-addon2">
+            <button onclick="searchInput()" class="btn btn-outline-warning" type="button"
+                id="search-btn">Search</button>
         </div>
+
+        <!-- display book info -->
+        <section>
+            <div id="result-messege"></div>
+            <div id="book-container" class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+            </div>
+        </section>
 
     </main>
 
