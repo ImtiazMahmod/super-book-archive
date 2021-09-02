@@ -43,7 +43,7 @@ const outputMessege = data =>{
     `}
     else{
         resultMessege.innerHTML = `
-    <h2 class="text-center text-primary my-3">${data.numFound} results found.</h2>    
+    <h2 style="border-bottom: 2px solid lightgray;" class="text-center text-primary mb-4 pb-2">Total ${data.numFound} results found.</h2>    
     `
     }    
 }
@@ -53,12 +53,14 @@ const displayBook = data =>{
     outputMessege(data);     
      //clear display data 
      bookConatainer.textContent = '';
-     data.docs?.forEach(book => {
+     //maximum 30 output display on UI
+     const books = data.docs.slice(0,30);
+     books?.forEach(book => {
         const div = document.createElement('div');
         div.classList.add('col');        
         div.innerHTML = `
-                    <div class="card h-100">
-                        <img src="https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg" alt="Image not found" onerror="if(this.source===undefined) this.src='images/notFound.png';" class="card-img-top h-75">
+                    <div class="card h-100 p-2 rounded-3">
+                        <img src="https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg" alt="Image not found" onerror="this.src='images/notFound.png';" class="card-img-top   rounded-3 h-75">
                         <div class="card-body">
                             <h5 class="card-title">${book.title}</h5>
                             <h5 class="card-title"></h5>
